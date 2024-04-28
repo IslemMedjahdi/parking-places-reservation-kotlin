@@ -11,12 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun AuthScreen(navController: NavController) {
+fun RegisterScreen(navController: NavController) {
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ){
-        Text(text = "Auth Screen", style = MaterialTheme.typography.headlineMedium)
+        Text(text = "Register Screen", style = MaterialTheme.typography.headlineMedium)
     }
 }

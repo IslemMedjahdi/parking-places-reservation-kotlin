@@ -70,4 +70,15 @@ dependencies {
     implementation (libs.ui)
     implementation (libs.androidx.material)
     implementation (libs.androidx.navigation.compose.v240alpha01)
+    implementation(libs.coil.compose)
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.gson)
+    // Coil
+    implementation(libs.coil.compose.v240)
+    //Coroutine tests
+    testImplementation (libs.kotlinx.coroutines.test)
+    //MockWebserver
+    testImplementation (libs.mockwebserver)
 }

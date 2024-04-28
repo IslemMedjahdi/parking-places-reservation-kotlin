@@ -1,11 +1,12 @@
 package com.example.parking_places_reservation.screens.router
 
 sealed  class Router(val route: String) {
-    data object Auth : Router("auth") {
+    data object Login : Router("login") {
         fun createRoute(redirectRoute: String?): String {
-            return "auth?redirect=$redirectRoute"
+            return "login?redirect=$redirectRoute"
         }
     }
+    data object Register: Router("register")
     data object Profile: Router("profile")
     data object ParkingList: Router("parkings")
     data object ParkingListOnMap: Router("parkings_map")
