@@ -112,7 +112,9 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String,parki
 fun BottomNavigationBar(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    BottomNavigation {
+    BottomNavigation (
+
+    ) {
         BottomNavigationBarItems.values().forEach { item ->
             BottomNavigationItem(
                 icon = {
