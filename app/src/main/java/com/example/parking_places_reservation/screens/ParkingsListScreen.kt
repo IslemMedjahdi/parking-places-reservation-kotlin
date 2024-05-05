@@ -1,6 +1,5 @@
 package com.example.parking_places_reservation.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,14 +21,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import com.example.parking_places_reservation.core.entities.Parking
-import com.example.parking_places_reservation.core.entities.getFakeParkings
-import com.example.parking_places_reservation.models.ParkingModel
+import com.example.parking_places_reservation.models.ParkingViewModel
 import com.example.parking_places_reservation.screens.router.Router
 
 @Composable
-fun ParkingListScreen(navController: NavController,parkingsModel: ParkingModel) {
+fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewModel) {
 
     parkingsModel.getParkings();
 

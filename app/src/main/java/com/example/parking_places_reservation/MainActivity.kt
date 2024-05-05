@@ -24,7 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.parking_places_reservation.models.ParkingModel
+import com.example.parking_places_reservation.models.ParkingViewModel
 import com.example.parking_places_reservation.screens.CreateReservationScreen
 import com.example.parking_places_reservation.screens.LoginScreen
 import com.example.parking_places_reservation.screens.MyReservationsScreen
@@ -39,8 +39,8 @@ import com.example.parking_places_reservation.screens.router.Router
 import com.example.parking_places_reservation.ui.theme.ParkingplacesreservationTheme
 
 class MainActivity : ComponentActivity() {
-    private val parkingsModel: ParkingModel by viewModels {
-        ParkingModel.Factory(
+    private val parkingsViewModel: ParkingViewModel by viewModels {
+        ParkingViewModel.Factory(
             (application as ParkingReservationApplication).parkingRepository
         )
     }
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                             NavigationAppHost(
                                 navController = navController,
                                 startRoute = Router.ParkingList.route,
-                                parkingsModel = parkingsModel
+                                parkingsModel = parkingsViewModel
                             )
                         }
                     }
@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingModel) {
+fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {
             LoginScreen(navController = navController)
