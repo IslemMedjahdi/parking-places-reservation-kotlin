@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.parking_places_reservation.models.ParkingViewModel
+import com.example.parking_places_reservation.models.RegisterViewModel
 import com.example.parking_places_reservation.screens.CreateReservationScreen
 import com.example.parking_places_reservation.screens.LoginScreen
 import com.example.parking_places_reservation.screens.MyReservationsScreen
@@ -44,6 +46,11 @@ class MainActivity : ComponentActivity() {
             (application as ParkingReservationApplication).parkingRepository
         )
     }
+    private val registerViewModel: RegisterViewModel by viewModels {
+        RegisterViewModel.Factory(
+            (application as ParkingReservationApplication).authRepository
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -61,8 +68,9 @@ class MainActivity : ComponentActivity() {
                         Column(modifier = Modifier.padding(it)) {
                             NavigationAppHost(
                                 navController = navController,
-                                startRoute = Router.ParkingList.route,
-                                parkingsModel = parkingsViewModel
+                                startRoute = Router.Register.route,
+                                parkingsModel = parkingsViewModel,
+                                registerViewModel = registerViewModel
                             )
                         }
                     }
@@ -73,13 +81,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel) {
+fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel,registerViewModel: RegisterViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {
             LoginScreen(navController = navController)
         }
         composable(Router.Register.route){
-            RegisterScreen(navController = navController)
+            RegisterScreen(navController = navController,registerViewModel = registerViewModel)
         }
         composable(Router.ParkingList.route) {
             ParkingListScreen(navController = navController,parkingsModel = parkingsModel)
@@ -117,6 +125,7 @@ fun BottomNavigationBar(navController: NavController) {
     ) {
         BottomNavigationBarItems.values().forEach { item ->
             BottomNavigationItem(
+                modifier = Modifier.background(MaterialTheme.colorScheme.primary),
                 icon = {
                     Icon(
                         painterResource(item.icon),

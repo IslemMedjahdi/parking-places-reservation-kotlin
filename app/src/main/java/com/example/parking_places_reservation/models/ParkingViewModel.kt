@@ -14,6 +14,8 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
 
     var parkings = mutableStateOf(listOf<Parking>())
 
+    var loading = mutableStateOf(true)
+
     fun getParkings() {
         viewModelScope.launch{
             withContext(Dispatchers.IO){
@@ -21,6 +23,7 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
                 if(response.isSuccessful){
                     parkings.value = response.body() as MutableList<Parking>
                 }
+                loading.value = false
             }
         }
     }
