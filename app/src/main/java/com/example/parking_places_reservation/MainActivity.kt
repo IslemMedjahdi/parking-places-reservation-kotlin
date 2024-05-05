@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.parking_places_reservation.models.AuthViewModel
 import com.example.parking_places_reservation.models.ParkingViewModel
 import com.example.parking_places_reservation.models.RegisterViewModel
 import com.example.parking_places_reservation.screens.CreateReservationScreen
@@ -51,6 +53,11 @@ class MainActivity : ComponentActivity() {
             (application as ParkingReservationApplication).authRepository
         )
     }
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModel.Factory(
+            (application as ParkingReservationApplication).authRepository
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -70,18 +77,23 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 startRoute = Router.Register.route,
                                 parkingsModel = parkingsViewModel,
-                                registerViewModel = registerViewModel
+                                registerViewModel = registerViewModel,
+                                authViewModel = authViewModel
                             )
                         }
                     }
                 }
+                LaunchedEffect(key1 = true) {
+                    authViewModel.setup()
+                }
             }
         }
     }
+
 }
 
 @Composable
-fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel,registerViewModel: RegisterViewModel) {
+fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel,registerViewModel: RegisterViewModel,authViewModel: AuthViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {
             LoginScreen(navController = navController)
@@ -100,7 +112,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String,parki
             MyReservationsScreen(navController = navController)
         }
         composable(Router.Profile.route) {
-            ProfileScreen(navController = navController)
+            ProfileScreen(navController = navController,authViewModel = authViewModel)
         }
         composable(Router.ParkingListOnMap.route) {
             ParkingListOnMapScreen(navController = navController)
