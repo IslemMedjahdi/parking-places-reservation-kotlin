@@ -25,6 +25,8 @@ class ParkingModel(private val parkingRepository: ParkingRepository): ViewModel(
         }
     }
 
+
+
     class Factory(private val parkingService: ParkingRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return ParkingModel(parkingService) as T

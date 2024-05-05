@@ -5,10 +5,14 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface Endpoint {
     @GET("/parkings")
     suspend  fun getParkings(): Response<List<Parking>>
+
+    @GET("/parkings/{id}")
+    suspend fun getParkingById(@Path("id") id:String): Response<Parking>
 
 
     companion object {

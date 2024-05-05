@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun ParkingDetailsByIdScreen(navController: NavController,id: String) {
+
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
