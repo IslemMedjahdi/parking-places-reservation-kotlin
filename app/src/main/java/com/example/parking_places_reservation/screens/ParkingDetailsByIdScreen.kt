@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -75,12 +76,21 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
             ){
                 Icon(painter = painterResource(id = R.drawable.star), contentDescription ="star"
                     , modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .size(30.dp)
+                        .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
                         .background(Color.LightGray)
-                        .size(40.dp))
+
+
+                    ,
+                    tint = Color.Yellow,
+                )
                 Text(
-                    text = "${parkingByIdModel.selectedParking.value?.rating}",
+                    text = "${parkingByIdModel.selectedParking.value?.rating?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
+                    fontWeight = FontWeight(900),
+                    modifier = Modifier.padding(8.dp)
+
                 )
 
 
@@ -95,7 +105,7 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
                         .background(Color.LightGray)
                         .size(40.dp))
                 Text(
-                    text = "${parkingByIdModel.selectedParking.value?.price}",
+                    text = "${parkingByIdModel.selectedParking.value?.price?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
                 )
@@ -108,18 +118,19 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
                         .background(Color.LightGray)
                         .size(40.dp))
                 Text(
-                    text = "${parkingByIdModel.selectedParking.value?.freePlaces}",
+                    text = "${parkingByIdModel.selectedParking.value?.freePlaces?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
                 )
             }
-            Text(
-                text = "${parkingByIdModel.selectedParking.value?.description}",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
-            )
+
 
         }
+        Text(
+            text = "${parkingByIdModel.selectedParking.value?.description}",
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
+        )
 
     }
 }
