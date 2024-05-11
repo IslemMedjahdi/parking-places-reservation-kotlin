@@ -7,13 +7,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,9 +40,13 @@ import com.example.parking_places_reservation.screens.router.Router
 fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewModel) {
    LaunchedEffect(Unit) {
        parkingsModel.getParkings()
-
    }
+   
+    parkingsModel.loading.value.let {
+        LoadingIndicator(it)
 
+    }
+    
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -61,6 +68,13 @@ fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewMod
             }
         }
     }
+
+    LaunchedEffect(true) {
+        if(parkingsModel.parkings.value.isEmpty()){
+            parkingsModel.getParkings()
+        }
+    }
+
 }
 
 
@@ -90,7 +104,7 @@ fun ParkingListItem(parking: Parking, navController: NavController) {
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
-                                Color(0xFF64B5F6),
+                                MaterialTheme.colorScheme.primary,
                                 Color(0xFFFFFFFF)
                             )
                         ),
@@ -144,8 +158,19 @@ fun ParkingListItem(parking: Parking, navController: NavController) {
     }
 }
 
-
-
-
-
+@Composable
+fun LoadingIndicator(show: Boolean){
+    if(show){
+        Box(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                color = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        }
+    }
+}
 
