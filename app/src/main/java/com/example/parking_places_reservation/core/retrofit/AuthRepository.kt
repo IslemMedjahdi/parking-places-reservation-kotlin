@@ -8,4 +8,6 @@ class AuthRepository(private val endpoint: Endpoint,private val tokenManager: To
     suspend fun login(body: Endpoint.LoginRequest) = endpoint.loginUser(body)
 
     fun getToken() = tokenManager.getToken()
+
+    fun saveToken(token: String) = tokenManager.saveToken(token)
 }

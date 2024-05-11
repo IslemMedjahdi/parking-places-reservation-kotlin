@@ -39,10 +39,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.parking_places_reservation.`view-models`.RegisterViewModel
 import com.example.parking_places_reservation.screens.router.Router
+import com.example.parking_places_reservation.`view-models`.AuthViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewModel) {
+fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewModel,authViewModel: AuthViewModel){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -174,6 +175,11 @@ fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewM
                     Toast.makeText(context, registerViewModel.error.value, Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+    LaunchedEffect(key1 = authViewModel.isLoggedIn.value) {
+        if(authViewModel.isLoggedIn.value){
+            navController.navigate(Router.Profile.route)
         }
     }
 

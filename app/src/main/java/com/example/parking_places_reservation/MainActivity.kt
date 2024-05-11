@@ -104,10 +104,10 @@ class MainActivity : ComponentActivity() {
 fun NavigationAppHost(navController: NavHostController, startRoute: String, parkingsViewModel: ParkingViewModel, registerViewModel: RegisterViewModel, authViewModel: AuthViewModel, parkingByIdViewModel: ParkingByIdViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController,authViewModel = authViewModel)
         }
         composable(Router.Register.route){
-            RegisterScreen(navController = navController,registerViewModel = registerViewModel)
+            RegisterScreen(navController = navController,registerViewModel = registerViewModel,authViewModel = authViewModel)
         }
         composable(Router.ParkingList.route) {
             ParkingListScreen(navController = navController,parkingsModel = parkingsViewModel)
@@ -117,7 +117,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
             ParkingDetailsByIdScreen(navController = navController,id = parkingId ?: "",parkingByIdModel = parkingByIdViewModel)
         }
         composable(Router.MyReservations.route) {
-            MyReservationsScreen(navController = navController)
+            MyReservationsScreen(navController = navController,authViewModel)
         }
         composable(Router.Profile.route) {
             ProfileScreen(navController = navController,authViewModel = authViewModel)
@@ -131,7 +131,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
         }
         composable(Router.ReservationDetails.route){navBackStackEntry ->
             val reservationId = navBackStackEntry.arguments?.getString("reservationId")
-            ReservationDetailsScreen(navController = navController,reservationId = reservationId ?: "")
+            ReservationDetailsScreen(navController = navController,reservationId = reservationId ?: "",authViewModel=authViewModel)
         }
     }
 }

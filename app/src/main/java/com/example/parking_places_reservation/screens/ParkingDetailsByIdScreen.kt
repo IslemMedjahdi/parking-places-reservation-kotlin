@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +34,6 @@ import com.example.parking_places_reservation.`view-models`.ParkingByIdViewModel
 @Composable
 fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingByIdModel : ParkingByIdViewModel) {
 
-    parkingByIdModel.getParkingById(id)
     val context = LocalContext.current
     val displayMetrics: DisplayMetrics = context.getResources().getDisplayMetrics()
     val dpHeight = displayMetrics.heightPixels / displayMetrics.density
@@ -120,7 +120,9 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
             )
 
         }
-
+    }
+    LaunchedEffect(key1 = id) {
+        parkingByIdModel.getParkingById(id)
     }
 }
 
