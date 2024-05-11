@@ -10,4 +10,6 @@ class AuthRepository(private val endpoint: Endpoint,private val tokenManager: To
     fun getToken() = tokenManager.getToken()
 
     fun saveToken(token: String) = tokenManager.saveToken(token)
+
+    fun clearToken() = tokenManager.clearToken()
 }

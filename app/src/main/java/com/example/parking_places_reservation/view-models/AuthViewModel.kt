@@ -46,8 +46,10 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
     }
 
     fun logout(){
-        authRepository.saveToken("")
+        authRepository.clearToken()
         isLoggedIn.value = false
+        success.value = false
+        error.value = ""
     }
 
     fun setup(){
