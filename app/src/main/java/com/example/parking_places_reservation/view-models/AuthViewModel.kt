@@ -1,9 +1,6 @@
-package com.example.parking_places_reservation.models
+package com.example.parking_places_reservation.`view-models`
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -11,8 +8,7 @@ import com.example.parking_places_reservation.core.retrofit.AuthRepository
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(private val authRepository: AuthRepository): ViewModel() {
-    var fullName = mutableStateOf("")
+class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
     var email = mutableStateOf("")
     var password = mutableStateOf("")
 
@@ -20,16 +16,18 @@ class RegisterViewModel(private val authRepository: AuthRepository): ViewModel()
     var success = mutableStateOf(false)
     var error = mutableStateOf("")
 
-    fun register(){
+    var isLoggedIn = mutableStateOf(false)
+
+    fun login(){
         loading.value = true
         success.value = false
         error.value = ""
+
         viewModelScope.launch {
-            val response = authRepository.register(
-                Endpoint.RegisterRequest(
+            val response = authRepository.login(
+                Endpoint.LoginRequest(
                     email = email.value,
-                    password = password.value,
-                    fullName = fullName.value
+                    password = password.value
                 )
             )
             if(response.isSuccessful){
@@ -45,9 +43,15 @@ class RegisterViewModel(private val authRepository: AuthRepository): ViewModel()
         }
     }
 
+    fun setup(){
+        val token = authRepository.getToken();
+
+        isLoggedIn.value = token.isNotEmpty()
+    }
+
     class Factory(private val authRepository: AuthRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RegisterViewModel(authRepository) as T
+            return AuthViewModel(authRepository) as T
         }
     }
 

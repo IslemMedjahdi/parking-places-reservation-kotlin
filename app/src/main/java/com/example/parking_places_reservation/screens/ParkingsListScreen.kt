@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.parking_places_reservation.core.entities.Parking
-import com.example.parking_places_reservation.models.ParkingViewModel
+import com.example.parking_places_reservation.`view-models`.ParkingViewModel
 import com.example.parking_places_reservation.screens.router.Router
 
 

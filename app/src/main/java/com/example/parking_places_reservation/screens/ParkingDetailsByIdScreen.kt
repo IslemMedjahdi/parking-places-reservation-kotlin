@@ -27,8 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.parking_places_reservation.R
-import com.example.parking_places_reservation.models.ParkingByIdViewModel
-import kotlin.math.roundToInt
+import com.example.parking_places_reservation.`view-models`.ParkingByIdViewModel
 
 
 @Composable

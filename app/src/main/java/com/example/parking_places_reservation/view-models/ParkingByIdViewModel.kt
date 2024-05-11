@@ -1,4 +1,4 @@
-package com.example.parking_places_reservation.models
+package com.example.parking_places_reservation.`view-models`
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -9,31 +9,23 @@ import com.example.parking_places_reservation.core.retrofit.ParkingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewModel() {
-
-    var parkings = mutableStateOf(listOf<Parking>())
-
-    var loading = mutableStateOf(true)
-
-    fun getParkings() {
+class ParkingByIdViewModel(private val parkingRepository: ParkingRepository): ViewModel() {
+    var selectedParking = mutableStateOf<Parking?>(null)
+    fun getParkingById(id: String) {
         viewModelScope.launch{
             withContext(Dispatchers.IO){
-                val response = parkingRepository.getParkings()
+                val response = parkingRepository.getParkingById(id)
                 if(response.isSuccessful){
-                    parkings.value = response.body() as MutableList<Parking>
+                    selectedParking.value = response.body()
                 }
-                loading.value = false
             }
         }
     }
 
-
-
-    class Factory(private val parkingService: ParkingRepository): ViewModelProvider.Factory{
+    class Factory(private val parkingRepository: ParkingRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ParkingViewModel(parkingService) as T
+            return ParkingByIdViewModel(parkingRepository) as T
         }
     }
-    
+
 }

@@ -10,7 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.parking_places_reservation.models.AuthViewModel
+import com.example.parking_places_reservation.`view-models`.AuthViewModel
 import com.example.parking_places_reservation.screens.router.Router
 
 @Composable

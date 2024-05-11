@@ -1,4 +1,4 @@
-package com.example.parking_places_reservation.models
+package com.example.parking_places_reservation.`view-models`
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,8 @@ import com.example.parking_places_reservation.core.retrofit.AuthRepository
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
+class RegisterViewModel(private val authRepository: AuthRepository): ViewModel() {
+    var fullName = mutableStateOf("")
     var email = mutableStateOf("")
     var password = mutableStateOf("")
 
@@ -16,18 +17,16 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
     var success = mutableStateOf(false)
     var error = mutableStateOf("")
 
-    var isLoggedIn = mutableStateOf(false)
-
-    fun login(){
+    fun register(){
         loading.value = true
         success.value = false
         error.value = ""
-
         viewModelScope.launch {
-            val response = authRepository.login(
-                Endpoint.LoginRequest(
+            val response = authRepository.register(
+                Endpoint.RegisterRequest(
                     email = email.value,
-                    password = password.value
+                    password = password.value,
+                    fullName = fullName.value
                 )
             )
             if(response.isSuccessful){
@@ -43,15 +42,9 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
         }
     }
 
-    fun setup(){
-        val token = authRepository.getToken();
-
-        isLoggedIn.value = token.isNotEmpty()
-    }
-
     class Factory(private val authRepository: AuthRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AuthViewModel(authRepository) as T
+            return RegisterViewModel(authRepository) as T
         }
     }
 
