@@ -6,11 +6,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.POST
 
 interface Endpoint {
     @GET("/parkings")
     suspend  fun getParkings(): Response<List<Parking>>
+
+    @GET("/parkings/{id}")
+    suspend fun getParkingById(@Path("id") id:String): Response<Parking>
 
 
     data class RegisterRequest(

@@ -38,12 +38,15 @@ import com.example.parking_places_reservation.screens.router.Router
 
 @Composable
 fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewModel) {
-
+   LaunchedEffect(Unit) {
+       parkingsModel.getParkings()
+   }
+   
     parkingsModel.loading.value.let {
         LoadingIndicator(it)
 
     }
-
+    
     Column(
         modifier = Modifier
             .fillMaxWidth(),
