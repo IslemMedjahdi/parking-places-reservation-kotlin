@@ -22,7 +22,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
     ){
         Text(text = "Profile Screen", style = MaterialTheme.typography.headlineMedium)
     }
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = authViewModel.isLoggedIn.value) {
         if(!authViewModel.isLoggedIn.value){
             navController.navigate(Router.Login.createRoute(Router.Profile.route))
         }
