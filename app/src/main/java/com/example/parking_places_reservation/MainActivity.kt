@@ -53,6 +53,8 @@ class MainActivity : ComponentActivity() {
     private val parkingByIdViewModel: ParkingByIdViewModel by viewModels {
         ParkingByIdViewModel.Factory(
             (application as ParkingReservationApplication).parkingRepository
+        )
+    }
     private val registerViewModel: RegisterViewModel by viewModels {
         RegisterViewModel.Factory(
             (application as ParkingReservationApplication).authRepository
@@ -82,9 +84,7 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 startRoute = Router.ParkingList.route,
                                 parkingsModel = parkingsViewModel,
-                                parkingByIdModel = parkingByIdViewModel
-                                startRoute = Router.Register.route,
-                                parkingsModel = parkingsViewModel,
+                                parkingByIdModel = parkingByIdViewModel,
                                 registerViewModel = registerViewModel,
                                 authViewModel = authViewModel
                             )
@@ -101,7 +101,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel,registerViewModel: RegisterViewModel,authViewModel: AuthViewModel) {
+fun NavigationAppHost(navController: NavHostController, startRoute: String,parkingsModel: ParkingViewModel,registerViewModel: RegisterViewModel,authViewModel: AuthViewModel,parkingByIdModel: ParkingByIdViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {
             LoginScreen(navController = navController)
