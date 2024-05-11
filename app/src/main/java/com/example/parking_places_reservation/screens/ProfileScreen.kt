@@ -30,7 +30,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
     }
     LaunchedEffect(key1 = authViewModel.isLoggedIn.value) {
         if(!authViewModel.isLoggedIn.value){
-            navController.navigate(Router.Login.createRoute(Router.Login.route))
+            navController.navigate(Router.Login.createRoute(Router.Profile.route))
         }
     }
 }
