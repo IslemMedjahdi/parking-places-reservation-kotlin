@@ -22,16 +22,19 @@ class ReserveViewModel(private val reservationRepository: ReservationRepository)
     var success = mutableStateOf(false)
     var error = mutableStateOf("")
 
-    fun reserve(parkingId: String){
+    fun createReservation(parkingId: String){
         loading.value = true
         success.value = false
         error.value = ""
 
+        val startDateTime = "${startDate.value} ${startTime.value}"
+        val endDateTime = "${endDate.value} ${endTime.value}"
+
         viewModelScope.launch {
             val response = reservationRepository.reserve(
                 Endpoint.ReserveRequest(
-                    startDate = startDate.value,
-                    endDate = endDate.value,
+                    startDate = startDateTime,
+                    endDate = endDateTime,
                     parkingId = parkingId
                 )
             )
