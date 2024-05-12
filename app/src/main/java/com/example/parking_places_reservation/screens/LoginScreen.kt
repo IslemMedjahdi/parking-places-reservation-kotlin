@@ -41,7 +41,7 @@ import com.example.parking_places_reservation.`view-models`.AuthViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController,authViewModel: AuthViewModel){
+fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redirectRoute: String? = null){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -158,7 +158,11 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel){
         }
         LaunchedEffect(key1 = authViewModel.success.value) {
             if(authViewModel.success.value){
-                navController.navigate(Router.Profile.route)
+                scope.launch {
+                    if (authViewModel.success.value) {
+                        Toast.makeText(context, "Login successfully $redirectRoute", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
         LaunchedEffect(key1 = authViewModel.error.value) {
@@ -173,7 +177,7 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel){
         }
         LaunchedEffect(key1 = authViewModel.isLoggedIn.value) {
             if(authViewModel.isLoggedIn.value){
-                navController.navigate(Router.Profile.route)
+                navController.navigate(redirectRoute ?: Router.Profile.route)
             }
         }
     }

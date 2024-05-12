@@ -1,9 +1,9 @@
 package com.example.parking_places_reservation.screens.router
 
 sealed  class Router(val route: String) {
-    data object Login : Router("login") {
-        fun createRoute(redirectRoute: String?): String {
-            return "login?redirect=$redirectRoute"
+    data object Login : Router("login/{redirect}") {
+        fun createRoute(redirect: String?): String {
+            return "login/$redirect"
         }
     }
     data object Register: Router("register")

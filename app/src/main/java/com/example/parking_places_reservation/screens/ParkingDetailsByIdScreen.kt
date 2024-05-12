@@ -37,18 +37,23 @@ import com.example.parking_places_reservation.`view-models`.ParkingByIdViewModel
 
 
 @Composable
-fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingByIdModel : ParkingByIdViewModel,authViewModel: AuthViewModel) {
+fun ParkingDetailsByIdScreen(
+    navController: NavController,
+    id: String,
+    parkingByIdModel: ParkingByIdViewModel,
+    authViewModel: AuthViewModel
+) {
 
     val context = LocalContext.current
     val displayMetrics: DisplayMetrics = context.getResources().getDisplayMetrics()
     val dpHeight = displayMetrics.heightPixels / displayMetrics.density
     val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
         verticalArrangement = Arrangement.Top
-    ){
+    ) {
         AsyncImage(
             model = parkingByIdModel.selectedParking.value?.photoUrl ?: "",
             contentDescription = null,
@@ -76,19 +81,17 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
-        ){
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(painter = painterResource(id = R.drawable.star), contentDescription ="star"
-                    , modifier = Modifier
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.star), contentDescription = "star",
+                    modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .size(30.dp)
                         .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
-                        .background(Color.LightGray)
-
-
-                    ,
+                        .background(Color.LightGray),
                     tint = Color.DarkGray,
                 )
                 Text(
@@ -100,46 +103,47 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
                 )
 
 
-
             }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(painter = painterResource(id = R.drawable.price), contentDescription ="price"
-                    , modifier = Modifier
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.price),
+                    contentDescription = "price",
+                    modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .size(30.dp)
                         .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
-                        .background(Color.LightGray)
-
-
-                    ,
-                    tint = Color.DarkGray)
+                        .background(Color.LightGray),
+                    tint = Color.DarkGray
+                )
                 Text(
                     text = "${parkingByIdModel.selectedParking.value?.price?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight(900),
-                    modifier = Modifier.padding(8.dp)                )
+                    modifier = Modifier.padding(8.dp)
+                )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(painter = painterResource(id = R.drawable.parking_area), contentDescription ="star"
-                    , modifier = Modifier
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.parking_area),
+                    contentDescription = "star",
+                    modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .size(30.dp)
                         .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
-                        .background(Color.LightGray)
-
-
-                    ,
-                    tint = Color.DarkGray)
+                        .background(Color.LightGray),
+                    tint = Color.DarkGray
+                )
                 Text(
                     text = "${parkingByIdModel.selectedParking.value?.freePlaces?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight(900),
-                    modifier = Modifier.padding(8.dp)                )
+                    modifier = Modifier.padding(8.dp)
+                )
             }
 
 
@@ -151,25 +155,19 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
         )
-        if(authViewModel.isLoggedIn.value){
-            Button(
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(7.dp),
-                shape = RoundedCornerShape(15.dp),
-                onClick = {
-                    navController.navigate(Router.CreateReservation.createRoute(id))
-                }
-            ) {
-                Text(
-                    text = "Reserve a place",
-                    color = Color.White,
-                    modifier = Modifier.padding(7.dp)
-                )
-            }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(7.dp),
+            shape = RoundedCornerShape(15.dp),
+            onClick = { navController.navigate(Router.CreateReservation.createRoute(id)) }
+        ) {
+            Text(
+                text = "Reserve a place",
+                color = Color.White,
+                modifier = Modifier.padding(7.dp)
+            )
         }
-
 
 
     }
