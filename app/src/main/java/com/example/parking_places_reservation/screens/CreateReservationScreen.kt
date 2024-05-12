@@ -172,7 +172,6 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                     .fillMaxWidth()
                     .padding(7.dp)
                     .background(Color.LightGray, shape = RoundedCornerShape(15.dp)),
-
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(Color.LightGray)
             ) {
@@ -193,7 +192,6 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                     .fillMaxWidth()
                     .padding(7.dp)
                     .background(Color.LightGray, shape = RoundedCornerShape(15.dp)),
-
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(Color.LightGray)
             ) {
@@ -204,10 +202,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                         ),modifier = Modifier.padding(7.dp),color = Color.Black)
             }
             Spacer(modifier = Modifier.height(16.dp))
-
-
             Button(
-
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(7.dp),
@@ -229,13 +224,18 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                         color = Color.White
                     )
                 }
-
             }
         }
     }
     LaunchedEffect(key1 = authViewModel.isLoggedIn.value) {
         if(!authViewModel.isLoggedIn.value){
             navController.navigate(Router.Login.createRoute((Router.CreateReservation.createRoute(parkingId))))
+        }
+    }
+    LaunchedEffect(key1 = reserveViewModel.success.value) {
+        if(reserveViewModel.success.value){
+            reserveViewModel.success.value = false
+            navController.navigate(Router.MyReservations.route)
         }
     }
 }

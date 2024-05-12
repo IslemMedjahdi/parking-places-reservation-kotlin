@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import com.example.parking_places_reservation.core.repositories.ReservationRepository
 import com.example.parking_places_reservation.core.room.ReservationEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ReserveViewModel(private val reservationRepository: ReservationRepository) : ViewModel() {
@@ -41,15 +43,19 @@ class ReserveViewModel(private val reservationRepository: ReservationRepository)
             if(response.isSuccessful){
                 success.value = true
                 response.body().let {
-                    reservationRepository.saveReservationLocal(ReservationEntity(
-                        id = it!!.id,
-                        parkingId = it.parkingId,
-                        endTime = it.endDate,
-                        startTime = it.startDate,
-                        parkingAddress = it.parkingAddress,
-                        parkingName = it.parkingName,
-                        parkingPhotoUrl = it.parkingPhotoUrl
-                    ))
+                    withContext(Dispatchers.IO) {
+                        reservationRepository.saveReservationLocal(
+                            ReservationEntity(
+                                id = it!!.id,
+                                parkingId = it.parkingId,
+                                endTime = it.endDate,
+                                startTime = it.startDate,
+                                parkingAddress = it.parkingAddress,
+                                parkingName = it.parkingName,
+                                parkingPhotoUrl = it.parkingPhotoUrl
+                            )
+                        )
+                    }
                 }
             }
             else{

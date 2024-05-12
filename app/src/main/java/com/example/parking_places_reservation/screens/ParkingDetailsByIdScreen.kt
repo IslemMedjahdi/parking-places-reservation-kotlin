@@ -160,7 +160,8 @@ fun ParkingDetailsByIdScreen(
                 .fillMaxWidth()
                 .padding(7.dp),
             shape = RoundedCornerShape(15.dp),
-            onClick = { navController.navigate(Router.CreateReservation.createRoute(id)) }
+            onClick = { navController.navigate(Router.CreateReservation.createRoute(id))
+            }
         ) {
             Text(
                 text = "Reserve a place",
