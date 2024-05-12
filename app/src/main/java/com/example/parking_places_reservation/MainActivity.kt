@@ -42,7 +42,7 @@ import com.example.parking_places_reservation.screens.ReservationDetailsScreen
 import com.example.parking_places_reservation.screens.navigation_bar.BottomNavigationBarItems
 import com.example.parking_places_reservation.screens.router.Router
 import com.example.parking_places_reservation.ui.theme.ParkingplacesreservationTheme
-import com.example.parking_places_reservation.view.ReserveViewModel
+import com.example.parking_places_reservation.view.ReservationViewModel
 
 class MainActivity : ComponentActivity() {
     private val parkingsViewModel: ParkingViewModel by viewModels {
@@ -66,8 +66,8 @@ class MainActivity : ComponentActivity() {
             (application as ParkingReservationApplication).authRepository
         )
     }
-    private val reserveViewModel: ReserveViewModel by viewModels {
-        ReserveViewModel.Factory(
+    private val reservationViewModel: ReservationViewModel by viewModels {
+        ReservationViewModel.Factory(
             (application as ParkingReservationApplication).reservationRepository
         )
     }
@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
                                 parkingByIdViewModel = parkingByIdViewModel,
                                 registerViewModel = registerViewModel,
                                 authViewModel = authViewModel,
-                                reserveViewModel = reserveViewModel
+                                reservationViewModel = reservationViewModel
                             )
                         }
                     }
@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationAppHost(navController: NavHostController, startRoute: String, parkingsViewModel: ParkingViewModel, registerViewModel: RegisterViewModel, authViewModel: AuthViewModel, parkingByIdViewModel: ParkingByIdViewModel, reserveViewModel: ReserveViewModel) {
+fun NavigationAppHost(navController: NavHostController, startRoute: String, parkingsViewModel: ParkingViewModel, registerViewModel: RegisterViewModel, authViewModel: AuthViewModel, parkingByIdViewModel: ParkingByIdViewModel, reservationViewModel: ReservationViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {navBackStackEntry ->
             val redirectRoute =navBackStackEntry.arguments?.getString("redirect")
@@ -125,7 +125,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
             ParkingDetailsByIdScreen(navController = navController,id = parkingId ?: "",parkingByIdModel = parkingByIdViewModel,authViewModel = authViewModel)
         }
         composable(Router.MyReservations.route) {
-            MyReservationsScreen(navController = navController,authViewModel)
+            MyReservationsScreen(navController = navController,authViewModel, reservationViewModel)
         }
         composable(Router.Profile.route) {
             ProfileScreen(navController = navController,authViewModel = authViewModel)
@@ -135,7 +135,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
         }
         composable(Router.CreateReservation.route) { navBackStackEntry ->
             val parkingId = navBackStackEntry.arguments?.getString("parkingId")
-            CreateReservationScreen(navController = navController,parkingId = parkingId ?: "", reserveViewModel = reserveViewModel,authViewModel = authViewModel)
+            CreateReservationScreen(navController = navController,parkingId = parkingId ?: "", reservationViewModel = reservationViewModel,authViewModel = authViewModel)
         }
         composable(Router.ReservationDetails.route){navBackStackEntry ->
             val reservationId = navBackStackEntry.arguments?.getString("reservationId")

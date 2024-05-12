@@ -9,4 +9,6 @@ class ReservationRepository(private val endpoint: Endpoint, private val Reservat
     suspend fun reserve(reserveRequest: Endpoint.ReserveRequest) = endpoint.reserve(reserveRequest)
 
     fun saveReservationLocal(reservation: ReservationEntity) = ReservationDao.insertReservation(reservation)
+
+    fun getReservationsLocal() = ReservationDao.getAllReservations()
 }

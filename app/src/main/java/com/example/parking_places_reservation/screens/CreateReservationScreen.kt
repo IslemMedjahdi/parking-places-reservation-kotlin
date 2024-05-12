@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.example.parking_places_reservation.view.ReserveViewModel
+import com.example.parking_places_reservation.view.ReservationViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +23,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,11 +38,10 @@ import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import kotlinx.coroutines.launch
-import okhttp3.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateReservationScreen(navController: NavController,parkingId: String,reserveViewModel: ReserveViewModel,authViewModel: AuthViewModel) {
+fun CreateReservationScreen(navController: NavController, parkingId: String, reservationViewModel: ReservationViewModel, authViewModel: AuthViewModel) {
     val startDateState = rememberSheetState()
     val startTimeState = rememberSheetState()
     val endDateState = rememberSheetState()
@@ -62,7 +60,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
         config = timeCongif,
         selection =
     ClockSelection.HoursMinutes{
-            hours, minutes -> reserveViewModel.startTime.value= "$hours:$minutes"
+            hours, minutes -> reservationViewModel.startTime.value= "$hours:$minutes"
     }
     )
 
@@ -70,7 +68,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
         state = startDateState,
         config = dateConfig,
         selection = CalendarSelection.Date{
-                date -> reserveViewModel.startDate.value = date.toString()
+                date -> reservationViewModel.startDate.value = date.toString()
         }
     )
 
@@ -78,7 +76,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
         config = timeCongif,
         selection =
     ClockSelection.HoursMinutes{
-            hours, minutes -> reserveViewModel.endTime.value= "$hours:$minutes"
+            hours, minutes -> reservationViewModel.endTime.value= "$hours:$minutes"
     }
     )
 
@@ -86,7 +84,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
         state = endDateState,
         config = dateConfig,
         selection = CalendarSelection.Date{
-                date -> reserveViewModel.endDate.value = date.toString()
+                date -> reservationViewModel.endDate.value = date.toString()
         }
 
     )
@@ -134,8 +132,8 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
             ) {
                 Text(
                     text = (
-                            if(reserveViewModel.startDate.value.isBlank()) "Select start date"
-                            else "Start date : ${reserveViewModel.startDate.value}"
+                            if(reservationViewModel.startDate.value.isBlank()) "Select start date"
+                            else "Start date : ${reservationViewModel.startDate.value}"
                             ),
                     modifier = Modifier.padding(7.dp),
                     color = Color.Black
@@ -157,8 +155,8 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                 colors = ButtonDefaults.buttonColors(Color.LightGray)
             ) {
                 Text(text = (
-                        if(reserveViewModel.startTime.value.isBlank()) "Select start time"
-                        else "Start time : ${reserveViewModel.startTime.value}"
+                        if(reservationViewModel.startTime.value.isBlank()) "Select start time"
+                        else "Start time : ${reservationViewModel.startTime.value}"
                         ),modifier = Modifier.padding(7.dp),color = Color.Black)
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -176,8 +174,8 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                 colors = ButtonDefaults.buttonColors(Color.LightGray)
             ) {
                 Text(text = (
-                        if(reserveViewModel.endDate.value.isBlank()) "Select end date"
-                        else "End Date : ${reserveViewModel.endDate.value}"
+                        if(reservationViewModel.endDate.value.isBlank()) "Select end date"
+                        else "End Date : ${reservationViewModel.endDate.value}"
 
                         ),modifier = Modifier.padding(7.dp),color = Color.Black)
             }
@@ -196,8 +194,8 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                 colors = ButtonDefaults.buttonColors(Color.LightGray)
             ) {
                 Text(text = (
-                        if(reserveViewModel.endTime.value.isBlank()) "Select end time"
-                        else "End time : ${reserveViewModel.endTime.value}"
+                        if(reservationViewModel.endTime.value.isBlank()) "Select end time"
+                        else "End time : ${reservationViewModel.endTime.value}"
 
                         ),modifier = Modifier.padding(7.dp),color = Color.Black)
             }
@@ -208,7 +206,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                     .padding(7.dp),
                 shape = RoundedCornerShape(15.dp),
                 onClick = {
-                    reserveViewModel.createReservation(parkingId)
+                    reservationViewModel.createReservation(parkingId)
                 }
             ) {
                 Text(
@@ -216,7 +214,7 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
                     color = Color.White,
                     modifier = Modifier.padding(7.dp)
                 )
-                if (reserveViewModel.loading.value) {
+                if (reservationViewModel.loading.value) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(24.dp)
@@ -232,9 +230,9 @@ fun CreateReservationScreen(navController: NavController,parkingId: String,reser
             navController.navigate(Router.Login.createRoute((Router.CreateReservation.createRoute(parkingId))))
         }
     }
-    LaunchedEffect(key1 = reserveViewModel.success.value) {
-        if(reserveViewModel.success.value){
-            reserveViewModel.success.value = false
+    LaunchedEffect(key1 = reservationViewModel.success.value) {
+        if(reservationViewModel.success.value){
+            reservationViewModel.success.value = false
             navController.navigate(Router.MyReservations.route)
         }
     }

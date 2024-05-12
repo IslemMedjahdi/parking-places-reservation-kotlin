@@ -12,17 +12,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class ReserveViewModel(private val reservationRepository: ReservationRepository) : ViewModel() {
+class ReservationViewModel(private val reservationRepository: ReservationRepository) : ViewModel() {
 
     var startDate = mutableStateOf("")
     var endDate = mutableStateOf("")
     var startTime = mutableStateOf("")
     var endTime = mutableStateOf("")
 
+    var myReservations = mutableStateOf(listOf<ReservationEntity>())
+
 
     var loading = mutableStateOf(false)
     var success = mutableStateOf(false)
     var error = mutableStateOf("")
+
+    fun getReservationFromLocal(){
+        viewModelScope.launch {
+            val reservations = withContext(Dispatchers.IO){
+                reservationRepository.getReservationsLocal()
+            }
+            myReservations.value = reservations
+        }
+    }
 
     fun createReservation(parkingId: String){
         loading.value = true
@@ -70,7 +81,7 @@ class ReserveViewModel(private val reservationRepository: ReservationRepository)
 
     class Factory(private val reservationRepository: ReservationRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ReserveViewModel(reservationRepository) as T
+            return ReservationViewModel(reservationRepository) as T
         }
     }
 
