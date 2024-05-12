@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.parking_places_reservation.core.entities.Parking
-import com.example.parking_places_reservation.core.retrofit.ParkingRepository
+import com.example.parking_places_reservation.core.repositories.ParkingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

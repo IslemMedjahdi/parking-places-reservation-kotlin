@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.devtools.ksp") version "1.9.21-1.0.15"
 }
 
 android {
@@ -81,4 +82,8 @@ dependencies {
     testImplementation (libs.kotlinx.coroutines.test)
     //MockWebserver
     testImplementation (libs.mockwebserver)
+    implementation (libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
+    testImplementation (libs.androidx.room.testing)
 }

@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.parking_places_reservation.core.retrofit.AuthRepository
+import com.example.parking_places_reservation.core.repositories.AuthRepository
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import kotlinx.coroutines.launch
 

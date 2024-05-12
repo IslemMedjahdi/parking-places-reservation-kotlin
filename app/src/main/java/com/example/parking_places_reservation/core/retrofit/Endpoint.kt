@@ -1,6 +1,7 @@
 package com.example.parking_places_reservation.core.retrofit
 
 import com.example.parking_places_reservation.core.entities.Parking
+import com.example.parking_places_reservation.core.entities.Reservation
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,22 +44,16 @@ interface Endpoint {
         val parkingId: String,
     )
 
-    data class ReserveResponse(
-        val id: String,
-        val startDate: String,
-        val endDate: String,
-        val parking: Parking,
-     )
 
     @POST("/reservations")
-    suspend fun reserve(@Body body: ReserveRequest): Response<ReserveResponse>
+    suspend fun reserve(@Body body: ReserveRequest): Response<Reservation>
 
     companion object {
         private var endpoint: Endpoint? = null
         fun createEndpoint(): Endpoint {
             if(endpoint ==null) {
 
-                endpoint = Retrofit.Builder().baseUrl("https://d6ff-105-235-129-38.ngrok-free.app/").
+                endpoint = Retrofit.Builder().baseUrl("https://6d66-41-111-189-195.ngrok-free.app/").
                             addConverterFactory(GsonConverterFactory.create()).build()
                             .create(Endpoint::class.java)
             }
