@@ -14,6 +14,9 @@ class ReserveViewModel(private val reservationRepository: ReservationRepository)
 
     var startDate = mutableStateOf("")
     var endDate = mutableStateOf("")
+    var startTime = mutableStateOf("")
+    var endTime = mutableStateOf("")
+
 
     var loading = mutableStateOf(false)
     var success = mutableStateOf(false)

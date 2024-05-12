@@ -86,4 +86,15 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation (libs.androidx.room.ktx)
     testImplementation (libs.androidx.room.testing)
+
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1..0.2")
+
+    // CORE
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
+
+    // CALENDAR
+    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
+
+    // CLOCK
+    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
 }
