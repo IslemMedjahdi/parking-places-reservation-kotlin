@@ -22,6 +22,8 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
                 val response = parkingRepository.getParkings()
                 if(response.isSuccessful){
                     parkings.value = response.body() as MutableList<Parking>
+                }else{
+                    parkings.value = emptyList()
                 }
                 loading.value = false
             }

@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,13 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.parking_places_reservation.R
+import com.example.parking_places_reservation.screens.router.Router
+import com.example.parking_places_reservation.`view-models`.AuthViewModel
 import com.example.parking_places_reservation.`view-models`.ParkingByIdViewModel
 
 
 @Composable
-fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingByIdModel : ParkingByIdViewModel) {
+fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingByIdModel : ParkingByIdViewModel,authViewModel: AuthViewModel) {
 
-    parkingByIdModel.getParkingById(id)
     val context = LocalContext.current
     val displayMetrics: DisplayMetrics = context.getResources().getDisplayMetrics()
     val dpHeight = displayMetrics.heightPixels / displayMetrics.density
@@ -42,7 +45,8 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(8.dp),
+        verticalArrangement = Arrangement.SpaceBetween
     ){
         AsyncImage(
             model = parkingByIdModel.selectedParking.value?.photoUrl ?: "",
@@ -83,7 +87,7 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
 
 
                     ,
-                    tint = Color.Yellow,
+                    tint = Color.DarkGray,
                 )
                 Text(
                     text = "${parkingByIdModel.selectedParking.value?.rating?.toInt()}",
@@ -100,28 +104,40 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(painter = painterResource(id = R.drawable.star), contentDescription ="star"
+                Icon(painter = painterResource(id = R.drawable.price), contentDescription ="price"
                     , modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .size(30.dp)
+                        .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
                         .background(Color.LightGray)
-                        .size(40.dp))
+
+
+                    ,
+                    tint = Color.DarkGray)
                 Text(
                     text = "${parkingByIdModel.selectedParking.value?.price?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
-                )
+                    fontWeight = FontWeight(900),
+                    modifier = Modifier.padding(8.dp)                )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(painter = painterResource(id = R.drawable.star), contentDescription ="star"
+                Icon(painter = painterResource(id = R.drawable.parking_area), contentDescription ="star"
                     , modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .size(30.dp)
+                        .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
                         .background(Color.LightGray)
-                        .size(40.dp))
+
+
+                    ,
+                    tint = Color.DarkGray)
                 Text(
                     text = "${parkingByIdModel.selectedParking.value?.freePlaces?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
-                )
+                    fontWeight = FontWeight(900),
+                    modifier = Modifier.padding(8.dp)                )
             }
 
 
@@ -131,7 +147,30 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
         )
+        if(authViewModel.isLoggedIn.value){
+            Button(
 
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(7.dp),
+                shape = RoundedCornerShape(15.dp),
+                onClick = {
+                    navController.navigate(Router.CreateReservation.createRoute(id))
+                }
+            ) {
+                Text(
+                    text = "Reserve a place",
+                    color = Color.White,
+                    modifier = Modifier.padding(7.dp)
+                )
+            }
+        }
+
+
+
+    }
+    LaunchedEffect(key1 = id) {
+        parkingByIdModel.getParkingById(id)
     }
 }
 

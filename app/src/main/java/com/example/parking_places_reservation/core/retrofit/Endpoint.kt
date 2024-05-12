@@ -22,7 +22,7 @@ interface Endpoint {
         val password: String,
         val fullName: String,
     )
-    @POST("/register")
+    @POST("/auth/register")
     suspend fun registerUser(@Body body: RegisterRequest): Response<Unit>
 
     data class LoginRequest(
@@ -34,7 +34,7 @@ interface Endpoint {
         val token: String,
     )
 
-    @POST("/login")
+    @POST("/auth/login")
     suspend fun loginUser(@Body body: LoginRequest): Response<LoginResponse>
 
     companion object {
@@ -42,7 +42,7 @@ interface Endpoint {
         fun createEndpoint(): Endpoint {
             if(endpoint ==null) {
 
-                endpoint = Retrofit.Builder().baseUrl("https://662e4f94a7dda1fa378c9df2.mockapi.io/api/").
+                endpoint = Retrofit.Builder().baseUrl("https://d6ff-105-235-129-38.ngrok-free.app/").
                             addConverterFactory(GsonConverterFactory.create()).build()
                             .create(Endpoint::class.java)
             }

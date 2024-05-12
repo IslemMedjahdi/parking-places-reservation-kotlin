@@ -32,6 +32,8 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
             )
             if(response.isSuccessful){
                 success.value = true
+                authRepository.saveToken(response.body()!!.token)
+                isLoggedIn.value = true
             }
             else{
                 error.value = response.message()
@@ -41,6 +43,11 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
             }
             loading.value = false
         }
+    }
+
+    fun logout(){
+        authRepository.saveToken("")
+        isLoggedIn.value = false
     }
 
     fun setup(){
