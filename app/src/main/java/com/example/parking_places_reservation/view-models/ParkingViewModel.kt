@@ -17,6 +17,7 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
     var loading = mutableStateOf(true)
 
     fun getParkings() {
+        loading.value = true
         viewModelScope.launch{
             withContext(Dispatchers.IO){
                 val response = parkingRepository.getParkings()
