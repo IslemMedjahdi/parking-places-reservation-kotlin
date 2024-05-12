@@ -15,4 +15,9 @@ class TokenManager(context: Context) {
         editor.putString("token", token)
         editor.apply()
     }
+
+    fun clearToken() {
+        editor.remove("token")
+        editor.apply()
+    }
 }

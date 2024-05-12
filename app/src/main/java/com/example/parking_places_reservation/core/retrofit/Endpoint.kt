@@ -37,6 +37,15 @@ interface Endpoint {
     @POST("/auth/login")
     suspend fun loginUser(@Body body: LoginRequest): Response<LoginResponse>
 
+    data class ReserveRequest(
+        val startDate: String,
+        val endDate: String,
+        val parkingId: String,
+    )
+
+    @POST("/reservations")
+    suspend fun reserve(@Body body: ReserveRequest): Response<Unit>
+
     companion object {
         private var endpoint: Endpoint? = null
         fun createEndpoint(): Endpoint {
