@@ -114,7 +114,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
         }
         composable(Router.ParkingDetailsById.route) { navBackStackEntry ->
             val parkingId = navBackStackEntry.arguments?.getString("parkingId")
-            ParkingDetailsByIdScreen(navController = navController,id = parkingId ?: "",parkingByIdModel = parkingByIdViewModel)
+            ParkingDetailsByIdScreen(navController = navController,id = parkingId ?: "",parkingByIdModel = parkingByIdViewModel,authViewModel = authViewModel)
         }
         composable(Router.MyReservations.route) {
             MyReservationsScreen(navController = navController,authViewModel)
