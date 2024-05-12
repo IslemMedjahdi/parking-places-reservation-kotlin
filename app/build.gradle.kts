@@ -87,14 +87,14 @@ dependencies {
     implementation (libs.androidx.room.ktx)
     testImplementation (libs.androidx.room.testing)
 
-    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1..0.2")
+    implementation(libs.core.v102)
 
     // CORE
-    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
+    implementation(libs.sheets.compose.dialogs.core)
 
     // CALENDAR
-    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
+    implementation(libs.calendar)
 
     // CLOCK
-    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
+    implementation(libs.clock)
 }
