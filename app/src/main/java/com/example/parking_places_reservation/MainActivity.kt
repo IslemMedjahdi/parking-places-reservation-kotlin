@@ -110,8 +110,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationAppHost(navController: NavHostController, startRoute: String, parkingsViewModel: ParkingViewModel, registerViewModel: RegisterViewModel, authViewModel: AuthViewModel, parkingByIdViewModel: ParkingByIdViewModel, reserveViewModel: ReserveViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
-        composable(Router.Login.route) {
-            LoginScreen(navController = navController,authViewModel = authViewModel)
+        composable(Router.Login.route) {navBackStackEntry ->
+            val redirectRoute =navBackStackEntry.arguments?.getString("redirect")
+            LoginScreen(navController = navController,authViewModel = authViewModel,redirectRoute)
         }
         composable(Router.Register.route){
             RegisterScreen(navController = navController,registerViewModel = registerViewModel,authViewModel = authViewModel)
