@@ -2,9 +2,12 @@ package com.example.parking_places_reservation.view
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.parking_places_reservation.core.retrofit.AuthRepository
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import com.example.parking_places_reservation.core.retrofit.ReservationRepository
+import com.example.parking_places_reservation.`view-models`.AuthViewModel
 import kotlinx.coroutines.launch
 
 
@@ -32,6 +35,10 @@ class ReserveViewModel(private val reservationRepository: ReservationRepository)
             )
             if(response.isSuccessful){
                 success.value = true
+                response.body().let {
+                    // Do something with the response
+                    // save it in local
+                }
             }
             else{
                 error.value = response.message()
@@ -40,6 +47,12 @@ class ReserveViewModel(private val reservationRepository: ReservationRepository)
                 }
             }
             loading.value = false
+        }
+    }
+
+    class Factory(private val reservationRepository: ReservationRepository): ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return ReserveViewModel(reservationRepository) as T
         }
     }
 

@@ -43,8 +43,15 @@ interface Endpoint {
         val parkingId: String,
     )
 
+    data class ReserveResponse(
+        val id: String,
+        val startDate: String,
+        val endDate: String,
+        val parking: Parking,
+     )
+
     @POST("/reservations")
-    suspend fun reserve(@Body body: ReserveRequest): Response<Unit>
+    suspend fun reserve(@Body body: ReserveRequest): Response<ReserveResponse>
 
     companion object {
         private var endpoint: Endpoint? = null

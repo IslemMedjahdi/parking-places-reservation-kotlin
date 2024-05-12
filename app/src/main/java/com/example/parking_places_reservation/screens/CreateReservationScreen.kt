@@ -9,9 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.parking_places_reservation.view.ReserveViewModel
 
 @Composable
-fun CreateReservationScreen(navController: NavController,parkingId: String) {
+fun CreateReservationScreen(navController: NavController,parkingId: String,reserveViewModel: ReserveViewModel) {
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

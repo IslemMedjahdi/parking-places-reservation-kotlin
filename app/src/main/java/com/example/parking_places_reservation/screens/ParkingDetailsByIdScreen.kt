@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,7 +47,7 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.Top
     ){
         AsyncImage(
             model = parkingByIdModel.selectedParking.value?.photoUrl ?: "",
@@ -61,13 +62,14 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
                 .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop
         )
-
+        Spacer(modifier = Modifier.size(10.dp))
         Text(
             text = "${parkingByIdModel.selectedParking.value?.name}",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight(900),
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(10.dp)
         )
+        Spacer(modifier = Modifier.size(10.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -142,6 +144,8 @@ fun ParkingDetailsByIdScreen(navController: NavController,id: String,parkingById
 
 
         }
+
+        Spacer(modifier = Modifier.size(10.dp))
         Text(
             text = "${parkingByIdModel.selectedParking.value?.description}",
             style = MaterialTheme.typography.bodyMedium,
