@@ -97,4 +97,13 @@ dependencies {
 
     // CLOCK
     implementation(libs.clock)
+
+    implementation (libs.maps.compose)
+
+// Optionally, you can include the Compose utils library for Clustering,
+// Street View metadata checks, etc.
+    implementation (libs.android.maps.compose.utils)
+
+// Optionally, you can include the widgets library for ScaleBar, etc.
+    implementation (libs.android.maps.compose.widgets)
 }

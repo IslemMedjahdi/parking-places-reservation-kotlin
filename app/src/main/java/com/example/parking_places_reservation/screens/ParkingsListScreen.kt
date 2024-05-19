@@ -16,7 +16,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,10 +29,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.parking_places_reservation.R
 import com.example.parking_places_reservation.core.entities.Parking
 import com.example.parking_places_reservation.`view-models`.ParkingViewModel
 import com.example.parking_places_reservation.screens.router.Router
@@ -44,7 +48,6 @@ fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewMod
    
     parkingsModel.loading.value.let {
         LoadingIndicator(it)
-
     }
     
     Column(
@@ -52,12 +55,17 @@ fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewMod
             .fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
     ) {
-        Box(modifier = Modifier.padding(8.dp)) {
+        Row(modifier = Modifier.padding(8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = "Parkings List:",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = MaterialTheme.typography.titleLarge.fontWeight
             )
+            Button(onClick = {
+                navController.navigate(Router.ParkingListOnMap.route)
+            }) {
+                    Text(text = "See On Map")
+            }
         }
         LazyColumn(
             modifier = Modifier.padding(8.dp),
@@ -78,7 +86,6 @@ fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewMod
 }
 
 
-//TODO: Styling need to be fixed , search for examples
 @Composable
 fun ParkingListItem(parking: Parking, navController: NavController) {
     Column(
@@ -162,7 +169,9 @@ fun ParkingListItem(parking: Parking, navController: NavController) {
 fun LoadingIndicator(show: Boolean){
     if(show){
         Box(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
             contentAlignment = Alignment.Center,
         ) {
             CircularProgressIndicator(

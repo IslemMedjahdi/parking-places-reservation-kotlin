@@ -14,9 +14,12 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
 
     var parkings = mutableStateOf(listOf<Parking>())
 
+    var selectedParking = mutableStateOf<Parking?>(null)
+
     var loading = mutableStateOf(true)
 
     fun getParkings() {
+        loading.value = true
         viewModelScope.launch{
             withContext(Dispatchers.IO){
                 val response = parkingRepository.getParkings()
@@ -28,6 +31,10 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
                 loading.value = false
             }
         }
+    }
+
+    fun getParkingById(id: String) {
+        selectedParking.value = parkings.value.find { it.id == id }
     }
 
 

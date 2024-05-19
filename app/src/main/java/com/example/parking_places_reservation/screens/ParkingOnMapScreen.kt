@@ -24,14 +24,14 @@ import com.google.maps.android.compose.MarkerInfoWindowContent
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
+
 @Composable
-fun ParkingListOnMapScreen(
+fun ParkingOnMapScreen(
     navController: NavController,
-    parkingsModel: ParkingViewModel){
+    parkingsModel: ParkingViewModel,
+    id: String){
     LaunchedEffect(true) {
-        if(parkingsModel.parkings.value.isEmpty()){
-            parkingsModel.getParkings()
-        }
+            parkingsModel.getParkingById(id)
     }
 
     parkingsModel.loading.value.let {
@@ -40,7 +40,7 @@ fun ParkingListOnMapScreen(
 
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(
-            LatLng(28.0339, 1.6596), 6f
+            LatLng(parkingsModel.selectedParking.value!!.latitude, parkingsModel.selectedParking.value!!.longitude), 6f
         )
     }
 
@@ -57,26 +57,24 @@ fun ParkingListOnMapScreen(
             modifier = Modifier.fillMaxSize(),
             onMapLongClick = {},
         ) {
-            for (parking in parkingsModel.parkings.value) {
-                val position = LatLng(parking.latitude, parking.longitude)
+                val position = LatLng(parkingsModel.selectedParking.value!!.latitude, parkingsModel.selectedParking.value!!.longitude)
                 Marker(
                     state = MarkerState(position = position),
-                    title = parking.name,
-                    snippet = parking.address,
+                    title = parkingsModel.selectedParking.value!!.name,
+                    snippet = parkingsModel.selectedParking.value!!.address,
                     onClick = {
                         it.showInfoWindow()
                         true
                     },
                 )
                 MarkerInfoWindowContent(
-                    state = MarkerState(position = LatLng(parking.latitude, parking.longitude)),
+                    state = MarkerState(position = LatLng(parkingsModel.selectedParking.value!!.latitude, parkingsModel.selectedParking.value!!.longitude)),
                     onInfoWindowClick = {
-                        navController.navigate(Router.ParkingDetailsById.createRoute(parking.id))
+                        navController.navigate(Router.ParkingDetailsById.createRoute(parkingsModel.selectedParking.value!!.id))
                     },
-                    title = parking.name,
-                    snippet = parking.address
+                    title = parkingsModel.selectedParking.value!!.name,
+                    snippet = parkingsModel.selectedParking.value!!.address
                 )
             }
         }
     }
-}
