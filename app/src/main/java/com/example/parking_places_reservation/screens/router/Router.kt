@@ -15,6 +15,11 @@ sealed  class Router(val route: String) {
             return "parkings/$parkingId"
         }
     }
+    data object ParkingOnMap: Router("parkings_map/{parkingId}") {
+        fun createRoute(parkingId: String): String {
+            return "parkings_map/$parkingId"
+        }
+    }
     data object MyReservations: Router("my_reservations")
     data object CreateReservation: Router("create_reservation/{parkingId}") {
         fun createRoute(parkingId: String): String {

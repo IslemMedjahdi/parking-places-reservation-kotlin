@@ -168,6 +168,20 @@ fun ParkingDetailsByIdScreen(
                 modifier = Modifier.padding(7.dp)
             )
         }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(7.dp),
+            shape = RoundedCornerShape(15.dp),
+            onClick = { navController.navigate(Router.ParkingOnMap.createRoute(id))
+            }
+        ) {
+            Text(
+                text = "See on Map",
+                color = Color.White,
+                modifier = Modifier.padding(7.dp)
+            )
+        }
 
 
     }
