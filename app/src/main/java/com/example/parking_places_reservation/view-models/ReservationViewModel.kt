@@ -20,6 +20,7 @@ class ReservationViewModel(private val reservationRepository: ReservationReposit
     var endTime = mutableStateOf("")
 
     var myReservations = mutableStateOf(listOf<ReservationEntity>())
+    var selectedReservation = mutableStateOf<ReservationEntity?>(null)
 
 
     var loading = mutableStateOf(false)
@@ -32,6 +33,15 @@ class ReservationViewModel(private val reservationRepository: ReservationReposit
                 reservationRepository.getReservationsLocal()
             }
             myReservations.value = reservations
+        }
+    }
+
+    fun getReservationByIdLocal(id: String){
+       viewModelScope.launch {
+            val reservation = withContext(Dispatchers.IO){
+                reservationRepository.getReservationByIdLocal(id)
+            }
+            selectedReservation.value = reservation
         }
     }
 

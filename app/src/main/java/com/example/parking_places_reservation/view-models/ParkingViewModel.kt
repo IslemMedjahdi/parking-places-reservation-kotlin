@@ -33,7 +33,7 @@ class ParkingViewModel(private val parkingRepository: ParkingRepository): ViewMo
         }
     }
 
-    fun getParkingById(id: String) {
+    fun getParkingById(id: String?) {
         selectedParking.value = parkings.value.find { it.id == id }
     }
 

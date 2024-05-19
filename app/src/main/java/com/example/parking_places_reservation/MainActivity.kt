@@ -140,7 +140,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
         }
         composable(Router.ReservationDetails.route){navBackStackEntry ->
             val reservationId = navBackStackEntry.arguments?.getString("reservationId")
-            ReservationDetailsScreen(navController = navController,reservationId = reservationId ?: "",authViewModel=authViewModel)
+            ReservationDetailsScreen(navController = navController,reservationId = reservationId ?: "",authViewModel=authViewModel , reservationViewModel = reservationViewModel , parkingViewModel = parkingsViewModel)
         }
     }
 }

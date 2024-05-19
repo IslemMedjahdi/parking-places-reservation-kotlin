@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,8 +31,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.parking_places_reservation.R
 import com.example.parking_places_reservation.screens.router.Router
-import com.example.parking_places_reservation.`view-models`.AuthViewModel
-import com.example.parking_places_reservation.`view-models`.ParkingByIdViewModel
 import com.example.parking_places_reservation.`view-models`.ParkingViewModel
 
 
