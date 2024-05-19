@@ -51,11 +51,6 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private val parkingByIdViewModel: ParkingByIdViewModel by viewModels {
-        ParkingByIdViewModel.Factory(
-            (application as ParkingReservationApplication).parkingRepository
-        )
-    }
     private val registerViewModel: RegisterViewModel by viewModels {
         RegisterViewModel.Factory(
             (application as ParkingReservationApplication).authRepository
@@ -90,7 +85,6 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 startRoute = Router.ParkingList.route,
                                 parkingsViewModel = parkingsViewModel,
-                                parkingByIdViewModel = parkingByIdViewModel,
                                 registerViewModel = registerViewModel,
                                 authViewModel = authViewModel,
                                 reserveViewModel = reserveViewModel
@@ -108,7 +102,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationAppHost(navController: NavHostController, startRoute: String, parkingsViewModel: ParkingViewModel, registerViewModel: RegisterViewModel, authViewModel: AuthViewModel, parkingByIdViewModel: ParkingByIdViewModel, reserveViewModel: ReserveViewModel) {
+fun NavigationAppHost(navController: NavHostController, startRoute: String, parkingsViewModel: ParkingViewModel, registerViewModel: RegisterViewModel, authViewModel: AuthViewModel, reserveViewModel: ReserveViewModel) {
     NavHost(navController = navController, startDestination = startRoute) {
         composable(Router.Login.route) {navBackStackEntry ->
             val redirectRoute =navBackStackEntry.arguments?.getString("redirect")
@@ -122,7 +116,7 @@ fun NavigationAppHost(navController: NavHostController, startRoute: String, park
         }
         composable(Router.ParkingDetailsById.route) { navBackStackEntry ->
             val parkingId = navBackStackEntry.arguments?.getString("parkingId")
-            ParkingDetailsByIdScreen(navController = navController,id = parkingId ?: "",parkingByIdModel = parkingByIdViewModel,authViewModel = authViewModel)
+            ParkingDetailsByIdScreen(navController = navController,id = parkingId ?: "",parkingViewModel=parkingsViewModel)
         }
         composable(Router.MyReservations.route) {
             MyReservationsScreen(navController = navController,authViewModel)

@@ -34,16 +34,15 @@ import com.example.parking_places_reservation.R
 import com.example.parking_places_reservation.screens.router.Router
 import com.example.parking_places_reservation.`view-models`.AuthViewModel
 import com.example.parking_places_reservation.`view-models`.ParkingByIdViewModel
+import com.example.parking_places_reservation.`view-models`.ParkingViewModel
 
 
 @Composable
 fun ParkingDetailsByIdScreen(
     navController: NavController,
     id: String,
-    parkingByIdModel: ParkingByIdViewModel,
-    authViewModel: AuthViewModel
+    parkingViewModel: ParkingViewModel,
 ) {
-
     val context = LocalContext.current
     val displayMetrics: DisplayMetrics = context.getResources().getDisplayMetrics()
     val dpHeight = displayMetrics.heightPixels / displayMetrics.density
@@ -55,7 +54,7 @@ fun ParkingDetailsByIdScreen(
         verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(
-            model = parkingByIdModel.selectedParking.value?.photoUrl ?: "",
+            model = parkingViewModel.selectedParking.value?.photoUrl ?: "",
             contentDescription = null,
             modifier = Modifier
                 .size(dpWidth.dp, dpHeight.dp / 3)
@@ -69,7 +68,7 @@ fun ParkingDetailsByIdScreen(
         )
         Spacer(modifier = Modifier.size(10.dp))
         Text(
-            text = "${parkingByIdModel.selectedParking.value?.name}",
+            text = "${parkingViewModel.selectedParking.value?.name}",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight(900),
             modifier = Modifier.padding(10.dp)
@@ -95,7 +94,7 @@ fun ParkingDetailsByIdScreen(
                     tint = Color.DarkGray,
                 )
                 Text(
-                    text = "${parkingByIdModel.selectedParking.value?.rating?.toInt()}",
+                    text = "${parkingViewModel.selectedParking.value?.rating?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight(900),
                     modifier = Modifier.padding(8.dp)
@@ -119,7 +118,7 @@ fun ParkingDetailsByIdScreen(
                     tint = Color.DarkGray
                 )
                 Text(
-                    text = "${parkingByIdModel.selectedParking.value?.price?.toInt()}",
+                    text = "${parkingViewModel.selectedParking.value?.price?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight(900),
                     modifier = Modifier.padding(8.dp)
@@ -139,7 +138,7 @@ fun ParkingDetailsByIdScreen(
                     tint = Color.DarkGray
                 )
                 Text(
-                    text = "${parkingByIdModel.selectedParking.value?.freePlaces?.toInt()}",
+                    text = "${parkingViewModel.selectedParking.value?.freePlaces?.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight(900),
                     modifier = Modifier.padding(8.dp)
@@ -151,7 +150,7 @@ fun ParkingDetailsByIdScreen(
 
         Spacer(modifier = Modifier.size(10.dp))
         Text(
-            text = "${parkingByIdModel.selectedParking.value?.description}",
+            text = "${parkingViewModel.selectedParking.value?.description}",
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = MaterialTheme.typography.bodyMedium.fontWeight
         )
@@ -173,7 +172,7 @@ fun ParkingDetailsByIdScreen(
 
     }
     LaunchedEffect(key1 = id) {
-        parkingByIdModel.getParkingById(id)
+        parkingViewModel.getParkingById(id)
     }
 }
 
