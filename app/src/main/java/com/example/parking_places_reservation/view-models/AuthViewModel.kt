@@ -21,6 +21,8 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
 
     var isLoggedIn = mutableStateOf(false)
 
+
+
     fun login(){
         loading.value = true
         success.value = false
@@ -31,6 +33,35 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
                 Endpoint.LoginRequest(
                     email = email.value,
                     password = password.value
+                )
+            )
+            if(response.isSuccessful){
+                success.value = true
+                authRepository.saveToken(response.body()!!.token)
+                authRepository.saveId(response.body()!!.id)
+                token.value = response.body()!!.token
+                id.value = response.body()!!.id
+                isLoggedIn.value = true
+            }
+            else{
+                error.value = response.message()
+                if(error.value.isBlank()){
+                    error.value = response.code().toString()
+                }
+            }
+            loading.value = false
+        }
+    }
+
+    fun loginWithGoogle(tokenId: String){
+        loading.value = true
+        success.value = false
+        error.value = ""
+
+        viewModelScope.launch {
+            val response = authRepository.loginWithGoogle(
+                Endpoint.LoginWithGoogleRequest(
+                    tokenId = tokenId
                 )
             )
             if(response.isSuccessful){

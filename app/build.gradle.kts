@@ -4,6 +4,8 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.21-1.0.15"
 }
 
+
+
 android {
     namespace = "com.example.parking_places_reservation"
     compileSdk = 34
@@ -108,5 +110,7 @@ dependencies {
     implementation (libs.android.maps.compose.widgets)
 
     implementation(libs.compose.qr.code)
+
+    implementation(libs.onetapcompose)
 
 }

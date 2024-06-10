@@ -39,6 +39,13 @@ interface Endpoint {
     @POST("/auth/login")
     suspend fun loginUser(@Body body: LoginRequest): Response<LoginResponse>
 
+    data class LoginWithGoogleRequest(
+        val tokenId: String
+    )
+
+    @POST("/auth/google")
+    suspend fun loginWithGoogle(@Body body: LoginWithGoogleRequest): Response<LoginResponse>
+
     data class ReserveRequest(
         val startDate: String,
         val endDate: String,
