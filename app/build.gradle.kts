@@ -106,4 +106,7 @@ dependencies {
 
 // Optionally, you can include the widgets library for ScaleBar, etc.
     implementation (libs.android.maps.compose.widgets)
+
+    implementation(libs.compose.qr.code)
+
 }
