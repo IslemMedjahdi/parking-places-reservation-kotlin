@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "24598005508",
+    "project_id": "parking-reservations-3b96b",
+    "storage_bucket": "parking-reservations-3b96b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24598005508:android:e1413304d2c9167a18f251",
+        "android_client_info": {
+          "package_name": "com.example.parking_places_reservation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIOo1iUAjtd8mGoJxKsGvVPCDIA9aT1Y0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
