@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.parking_places_reservation.core.repositories.AuthRepository
+import com.example.parking_places_reservation.core.repositories.DeviceTokenRepository
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
+class AuthViewModel(private val authRepository: AuthRepository, private val deviceTokenRepository : DeviceTokenRepository): ViewModel(){
     var email = mutableStateOf("")
     var password = mutableStateOf("")
 
@@ -21,6 +22,11 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
 
     var isLoggedIn = mutableStateOf(false)
 
+    fun sendToken(token: String){
+        viewModelScope.launch {
+            deviceTokenRepository.saveToken(Endpoint.tokenPostRequest(token))
+        }
+    }
 
 
     fun login(){
@@ -101,9 +107,9 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
         isLoggedIn.value = token.isNotBlank() && id.isNotBlank()
     }
 
-    class Factory(private val authRepository: AuthRepository): ViewModelProvider.Factory{
+    class Factory(private val authRepository: AuthRepository ,private val deviceTokenRepository: DeviceTokenRepository): ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AuthViewModel(authRepository) as T
+            return AuthViewModel(authRepository , deviceTokenRepository  ) as T
         }
     }
 

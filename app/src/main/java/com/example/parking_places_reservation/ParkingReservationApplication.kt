@@ -4,12 +4,20 @@ import android.app.Application
 import com.example.parking_places_reservation.core.IdManager
 import com.example.parking_places_reservation.core.TokenManager
 import com.example.parking_places_reservation.core.repositories.AuthRepository
+import com.example.parking_places_reservation.core.repositories.DeviceTokenRepository
 import com.example.parking_places_reservation.core.retrofit.Endpoint
 import com.example.parking_places_reservation.core.repositories.ParkingRepository
 import com.example.parking_places_reservation.core.repositories.ReservationRepository
 import com.example.parking_places_reservation.core.room.ParkingPlacesReservationDatabase
+import com.google.firebase.FirebaseApp
 
 class ParkingReservationApplication: Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        FirebaseApp.initializeApp(this)
+    }
+
     private val endpoint by lazy { Endpoint.createEndpoint() }
     val parkingRepository by lazy { ParkingRepository(endpoint) }
 
@@ -19,4 +27,6 @@ class ParkingReservationApplication: Application() {
     private val reservationDao by lazy {database.getReservationDao()}
 
     val reservationRepository by lazy { ReservationRepository(endpoint,reservationDao)  }
+
+     val deviceTokenRepository by lazy { DeviceTokenRepository(endpoint) }
 }
