@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,6 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Parkingplacesreservation"
         tools:targetApi="31">
+
+
+        <service
+            android:name=".core.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,10 +37,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBp--4uuSJhqfnzD2oGlSx7Pe_8OACyoxA" />
+            android:value="AIzaSyBp--4uuSJhqfnzD2oGlSx7Pe_8OACyoxA"
+
+            />
+
+
     </application>
 
 </manifest>

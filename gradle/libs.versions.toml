@@ -6,6 +6,7 @@ coilComposeVersion = "2.4.0"
 composeQrCode = "1.0.1"
 converterGson = "2.6.0"
 core = "1..0.2"
+firebaseMessaging = "20.2.4"
 gson = "2.10.1"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
@@ -26,6 +27,7 @@ retrofit = "2.6.0"
 roomCompiler = "2.5.0"
 ui = "1.6.6"
 
+
 [libraries]
 android-maps-compose-utils = { module = "com.google.maps.android:maps-compose-utils", version.ref = "mapsComposeUtilsVersion" }
 android-maps-compose-widgets = { module = "com.google.maps.android:maps-compose-widgets", version.ref = "mapsComposeWidgets" }
@@ -44,6 +46,7 @@ coil-compose-v240 = { module = "io.coil-kt:coil-compose", version.ref = "coilCom
 compose-qr-code = { module = "com.lightspark:compose-qr-code", version.ref = "composeQrCode" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 core-v102 = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "core" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
