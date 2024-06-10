@@ -70,7 +70,7 @@ fun MyReservationsScreen(navController: NavController,authViewModel: AuthViewMod
     }
 
     LaunchedEffect(key1 = reservationViewModel.myReservations.value) {
-        reservationViewModel.getReservationFromLocal()
+        reservationViewModel.getReservationFromLocal(authViewModel.id.value.toString())
     }
 }
 

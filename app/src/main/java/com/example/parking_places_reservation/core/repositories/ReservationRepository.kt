@@ -10,7 +10,9 @@ class ReservationRepository(private val endpoint: Endpoint, private val Reservat
 
     fun saveReservationLocal(reservation: ReservationEntity) = ReservationDao.insertReservation(reservation)
 
-    fun getReservationsLocal() = ReservationDao.getAllReservations()
+    fun getReservationsLocal(id : String) = ReservationDao.getAllReservationsOfUser(id)
 
     fun getReservationByIdLocal(id: String) = ReservationDao.getReservationById(id)
+
+    fun deleteAllReservationsLocal() = ReservationDao.deleteAllReservations()
 }

@@ -33,6 +33,7 @@ interface Endpoint {
 
     data class LoginResponse(
         val token: String,
+        val id: String
     )
 
     @POST("/auth/login")
@@ -42,6 +43,7 @@ interface Endpoint {
         val startDate: String,
         val endDate: String,
         val parkingId: String,
+        val driverId : String
     )
 
 
@@ -52,7 +54,7 @@ interface Endpoint {
         private var endpoint: Endpoint? = null
         fun createEndpoint(): Endpoint {
             if(endpoint ==null) {
-                endpoint = Retrofit.Builder().baseUrl("https://fc64-41-111-189-173.ngrok-free.app/").
+                endpoint = Retrofit.Builder().baseUrl("https://3f26-41-220-147-44.ngrok-free.app/").
                             addConverterFactory(GsonConverterFactory.create()).build()
                             .create(Endpoint::class.java)
             }

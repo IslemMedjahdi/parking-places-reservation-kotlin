@@ -63,7 +63,9 @@ class MainActivity : ComponentActivity() {
     }
     private val reservationViewModel: ReservationViewModel by viewModels {
         ReservationViewModel.Factory(
-            (application as ParkingReservationApplication).reservationRepository
+            (application as ParkingReservationApplication).reservationRepository ,
+            (application as ParkingReservationApplication).authRepository
+
         )
     }
     override fun onCreate(savedInstanceState: Bundle?) {
