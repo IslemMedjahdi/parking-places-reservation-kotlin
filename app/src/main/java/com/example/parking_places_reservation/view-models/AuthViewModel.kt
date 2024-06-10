@@ -12,6 +12,9 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
     var email = mutableStateOf("")
     var password = mutableStateOf("")
 
+    var token = mutableStateOf("")
+    var id = mutableStateOf("")
+
     var loading = mutableStateOf(false)
     var success = mutableStateOf(false)
     var error = mutableStateOf("")
@@ -33,6 +36,9 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
             if(response.isSuccessful){
                 success.value = true
                 authRepository.saveToken(response.body()!!.token)
+                authRepository.saveId(response.body()!!.id)
+                token.value = response.body()!!.token
+                id.value = response.body()!!.id
                 isLoggedIn.value = true
             }
             else{
@@ -47,6 +53,9 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
 
     fun logout(){
         authRepository.clearToken()
+        authRepository.clearId()
+        token.value = ""
+        id.value = ""
         isLoggedIn.value = false
         success.value = false
         error.value = ""
@@ -54,8 +63,11 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel(){
 
     fun setup(){
         val token = authRepository.getToken();
+        val id = authRepository.getId()
+        this.token.value = token
+        this.id.value = id
 
-        isLoggedIn.value = token.isNotEmpty()
+        isLoggedIn.value = token.isNotBlank() && id.isNotBlank()
     }
 
     class Factory(private val authRepository: AuthRepository): ViewModelProvider.Factory{

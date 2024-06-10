@@ -5,7 +5,8 @@ data class Reservation (
     val startDate: String,
     val endDate: String,
     val parkingId: String,
+    val userId : String,
     val parkingName: String,
     val parkingPhotoUrl: String,
-    val parkingAddress: String
+    val parkingAddress: String,
 )

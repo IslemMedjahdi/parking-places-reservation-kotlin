@@ -1,5 +1,6 @@
 package com.example.parking_places_reservation.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -235,5 +236,12 @@ fun CreateReservationScreen(navController: NavController, parkingId: String, res
             reservationViewModel.success.value = false
             navController.navigate(Router.MyReservations.route)
         }
+    }
+    LaunchedEffect(key1 = reservationViewModel.error.value) {
+        if(reservationViewModel.error.value.isNotBlank()){
+            Toast.makeText(context, reservationViewModel.error.value, Toast.LENGTH_SHORT).show()
+            reservationViewModel.error.value = ""
+        }
+
     }
 }

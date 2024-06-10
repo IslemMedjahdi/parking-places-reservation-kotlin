@@ -11,9 +11,12 @@ interface ReservationDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertReservation(reservation: ReservationEntity)
 
-    @Query("SELECT * FROM RESERVATIONS")
-    fun getAllReservations(): List<ReservationEntity>
+    @Query("SELECT * FROM RESERVATIONS WHERE user_id = :userId")
+    fun getAllReservationsOfUser(userId : String): List<ReservationEntity>
 
     @Query("SELECT * FROM RESERVATIONS WHERE id = :id")
     fun getReservationById(id: String): ReservationEntity
+
+    @Query("DELETE FROM RESERVATIONS")
+    fun deleteAllReservations()
 }

@@ -11,6 +11,9 @@ data class ReservationEntity(
     )
     var id: String,
 
+    @ColumnInfo(name = "user_id")
+    var userId: String,
+
     @ColumnInfo(name = "parking_id")
     var parkingId: String,
 
