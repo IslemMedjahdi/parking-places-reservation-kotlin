@@ -38,12 +38,28 @@ import androidx.navigation.NavController
 import com.example.parking_places_reservation.R
 import com.example.parking_places_reservation.screens.router.Router
 import com.example.parking_places_reservation.`view-models`.AuthViewModel
+import com.stevdzasan.onetap.OneTapSignInWithGoogle
+import com.stevdzasan.onetap.rememberOneTapSignInState
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redirectRoute: String? = null){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    val state = rememberOneTapSignInState()
+    OneTapSignInWithGoogle(
+        state = state,
+        clientId = "868166821322-hmn23c29tk7p9lav5f7u01pofj92ii7c.apps.googleusercontent.com",
+        onTokenIdReceived = {tokenId ->
+            authViewModel.loginWithGoogle(tokenId);
+        },
+        onDialogDismissed = { message ->
+            scope.launch {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+        }
+    )
 
     Column (
         verticalArrangement = Arrangement.Center,
@@ -147,7 +163,7 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redire
                     .fillMaxWidth()
                     .padding(top = 10.dp), horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { state.open() }) {
                     Icon(
                         modifier = Modifier.size(50.dp),
                         painter = painterResource(id = R.drawable.ic_google),

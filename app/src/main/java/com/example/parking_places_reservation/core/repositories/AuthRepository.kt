@@ -9,6 +9,8 @@ class AuthRepository(private val endpoint: Endpoint, private val tokenManager: T
 
     suspend fun login(body: Endpoint.LoginRequest) = endpoint.loginUser(body)
 
+    suspend fun loginWithGoogle(body: Endpoint.LoginWithGoogleRequest) = endpoint.loginWithGoogle(body)
+
     fun getToken() = tokenManager.getToken()
 
     fun saveToken(token: String) = tokenManager.saveToken(token)

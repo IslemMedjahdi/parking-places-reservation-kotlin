@@ -141,27 +141,6 @@ fun RegisterScreen(navController: NavController,registerViewModel: RegisterViewM
             fontWeight = FontWeight.Bold, color = Color.Black,
 
         )
-        Text(
-            modifier = Modifier
-                .padding(
-                    top = 40.dp,
-                ),
-            text = "Or connect with",
-            fontWeight = FontWeight.Medium, color = Color.Gray
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp), horizontalArrangement = Arrangement.Center
-        ) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    modifier = Modifier.size(50.dp),
-                    painter = painterResource(id = R.drawable.ic_google),
-                    contentDescription = "Google Icon", tint = Color.Unspecified
-                )
-            }
-        }
     }
     LaunchedEffect(key1 = registerViewModel.success.value) {
         if (registerViewModel.success.value) {

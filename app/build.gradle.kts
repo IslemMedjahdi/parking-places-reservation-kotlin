@@ -5,6 +5,8 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
+
 android {
     namespace = "com.example.parking_places_reservation"
     compileSdk = 34
@@ -113,5 +115,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
 
     implementation(libs.firebase.messaging)
+    implementation(libs.onetapcompose)
 
 }
