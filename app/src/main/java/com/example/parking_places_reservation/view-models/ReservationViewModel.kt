@@ -92,6 +92,11 @@ class ReservationViewModel(private val reservationRepository: ReservationReposit
                         )
                     }
                 }
+                startDate.value = ""
+                endDate.value = ""
+                startTime.value = ""
+                endTime.value = ""
+
             }
             else{
                 error.value = response.message()
