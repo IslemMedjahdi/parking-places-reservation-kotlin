@@ -83,7 +83,7 @@ fun ReservationDetailsScreen(navController: NavController,reservationId: String,
             }
         ) {
             Text(
-                text = "See on Map ${reservationViewModel.selectedReservation.value?.parkingId}",
+                text = "See on Map",
                 color = Color.White,
                 modifier = Modifier.padding(7.dp)
             )
