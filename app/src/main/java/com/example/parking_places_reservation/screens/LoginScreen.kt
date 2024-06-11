@@ -50,7 +50,7 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redire
     val state = rememberOneTapSignInState()
     OneTapSignInWithGoogle(
         state = state,
-        clientId = "868166821322-hmn23c29tk7p9lav5f7u01pofj92ii7c.apps.googleusercontent.com",
+        clientId = "868166821322-q3qeajtaosbno62in98kqa715jf9fac2.apps.googleusercontent.com",
         onTokenIdReceived = {tokenId ->
             authViewModel.loginWithGoogle(tokenId);
         },
