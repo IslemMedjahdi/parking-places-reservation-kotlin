@@ -1,5 +1,6 @@
 package com.example.parking_places_reservation.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -34,32 +35,71 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.navigation.NavController
 import com.example.parking_places_reservation.R
+import com.example.parking_places_reservation.core.retrofit.Endpoint
 import com.example.parking_places_reservation.screens.router.Router
 import com.example.parking_places_reservation.`view-models`.AuthViewModel
-import com.stevdzasan.onetap.OneTapSignInWithGoogle
-import com.stevdzasan.onetap.rememberOneTapSignInState
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import kotlinx.coroutines.launch
+import java.security.MessageDigest
+import java.util.UUID
 
 @Composable
 fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redirectRoute: String? = null){
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    fun loginWithGoogle() {
+        val credentialManager = CredentialManager.create(context = context)
 
-    val state = rememberOneTapSignInState()
-    OneTapSignInWithGoogle(
-        state = state,
-        clientId = "868166821322-hmn23c29tk7p9lav5f7u01pofj92ii7c.apps.googleusercontent.com",
-        onTokenIdReceived = {tokenId ->
-            authViewModel.loginWithGoogle(tokenId);
-        },
-        onDialogDismissed = { message ->
-            scope.launch {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        val rawNounce = UUID.randomUUID().toString()
+        val bytes = rawNounce.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        val hashedNounce = digest.fold(""){str, it -> str + "%02x".format(it)}
+
+        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId("868166821322-q3qeajtaosbno62in98kqa715jf9fac2.apps.googleusercontent.com")
+            .setAutoSelectEnabled(true)
+            .setNonce(hashedNounce)
+            .build()
+
+        val request: GetCredentialRequest = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        scope.launch {
+            try{
+                val result = credentialManager.getCredential(
+                    request = request,
+                    context = context,
+                )
+
+                val credential = result.credential
+
+                val googleIdTokenCredential = GoogleIdTokenCredential
+                    .createFrom(credential.data)
+
+                val googleIdToken = googleIdTokenCredential.idToken
+
+                Log.d("GOOGLE TOKEN",googleIdToken);
+
+                authViewModel.loginWithGoogle(tokenId = googleIdToken);
+
+
+            } catch (e: GetCredentialException) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            } catch (e: GoogleIdTokenParsingException) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
         }
-    )
+    }
 
     Column (
         verticalArrangement = Arrangement.Center,
@@ -163,7 +203,9 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redire
                     .fillMaxWidth()
                     .padding(top = 10.dp), horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { state.open() }) {
+                IconButton(onClick = {
+                    loginWithGoogle()
+                }) {
                     Icon(
                         modifier = Modifier.size(50.dp),
                         painter = painterResource(id = R.drawable.ic_google),

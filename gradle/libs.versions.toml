@@ -6,7 +6,9 @@ coilComposeVersion = "2.4.0"
 composeQrCode = "1.0.1"
 converterGson = "2.6.0"
 core = "1..0.2"
+credentials = "<latest version>"
 firebaseMessaging = "20.2.4"
+googleid = "<latest version>"
 gson = "2.10.1"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
@@ -33,6 +35,8 @@ ui = "1.6.6"
 android-maps-compose-utils = { module = "com.google.maps.android:maps-compose-utils", version.ref = "mapsComposeUtilsVersion" }
 android-maps-compose-widgets = { module = "com.google.maps.android:maps-compose-widgets", version.ref = "mapsComposeWidgets" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-compose-v240alpha01 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
@@ -48,6 +52,7 @@ compose-qr-code = { module = "com.lightspark:compose-qr-code", version.ref = "co
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 core-v102 = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "core" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
