@@ -11,6 +11,10 @@ import retrofit2.http.Path
 import retrofit2.http.POST
 
 interface Endpoint {
+
+    @POST("/device-token")
+    suspend fun saveToken(@Body body : tokenPostRequest): Response<Unit>
+
     @GET("/parkings")
     suspend  fun getParkings(): Response<List<Parking>>
 
@@ -23,6 +27,11 @@ interface Endpoint {
         val password: String,
         val fullName: String,
     )
+
+    data class tokenPostRequest(
+        val token: String
+    )
+
     @POST("/auth/register")
     suspend fun registerUser(@Body body: RegisterRequest): Response<Unit>
 
