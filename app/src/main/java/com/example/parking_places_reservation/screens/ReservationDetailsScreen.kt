@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -76,7 +78,7 @@ fun ReservationDetailsScreen(navController: NavController,reservationId: String,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .background(Color.White),
+                .background(Color.White).verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -169,7 +171,7 @@ fun ReservationDetailsScreen(navController: NavController,reservationId: String,
             Text(
                 text = "Don't know the route? See on Map",
                 fontSize = 14.sp,
-                color = Color.Blue,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .clickable {
