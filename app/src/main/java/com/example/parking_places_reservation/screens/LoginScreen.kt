@@ -57,6 +57,7 @@ fun LoginScreen(navController: NavController,authViewModel: AuthViewModel,redire
     fun loginWithGoogle() {
         val credentialManager = CredentialManager.create(context = context)
 
+
         val rawNounce = UUID.randomUUID().toString()
         val bytes = rawNounce.toByteArray()
         val md = MessageDigest.getInstance("SHA-256")
