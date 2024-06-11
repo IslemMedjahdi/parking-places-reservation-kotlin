@@ -1,22 +1,24 @@
 package com.example.parking_places_reservation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,13 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.parking_places_reservation.R
@@ -55,11 +56,13 @@ fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewMod
             .fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
     ) {
-        Row(modifier = Modifier.padding(8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = "Parkings List:",
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = MaterialTheme.typography.titleLarge.fontWeight
+                fontWeight = FontWeight(900)
             )
             Button(onClick = {
                 navController.navigate(Router.ParkingListOnMap.route)
@@ -88,79 +91,101 @@ fun ParkingListScreen(navController: NavController,parkingsModel: ParkingViewMod
 
 @Composable
 fun ParkingListItem(parking: Parking, navController: NavController) {
-    Column(
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
         modifier = Modifier
+            .padding(16.dp)
             .fillMaxWidth()
-            .clickable {
-                navController.navigate(
-                    Router.ParkingDetailsById.createRoute(parking.id)
-                )
-            }
-            .padding(16.dp),
-        horizontalAlignment = Alignment.Start
     ) {
-        Card(
-            shape = RoundedCornerShape(8.dp),
-            elevation = 4.dp,
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .background(Color.White)
+                .padding(16.dp)
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.primary,
-                                Color(0xFFFFFFFF)
-                            )
-                        ),
-                        shape = RoundedCornerShape(8.dp)
-                    ),
-                verticalAlignment = Alignment.CenterVertically
+                    .weight(1f)
+                    .padding(end = 16.dp)
             ) {
-                AsyncImage(
-                    model = parking.photoUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .padding(8.dp)
-                        .border(
-                            shape = RoundedCornerShape(8.dp),
-                            width = 1.dp,
-                            color = Color.Gray
-                        )
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop,
-                )
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.Center
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFF00C853), shape = RoundedCornerShape(8.dp))
+                            .padding(8.dp)
+                    ) {
+                        Text(
+                            text = "${parking.price} DZD",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = parking.name,
-                        style = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
                     )
-                    Text(
-                        text = parking.address,
-                        style = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
-                        modifier = Modifier.padding(bottom = 4.dp)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = parking.address,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.star),
+                        contentDescription = "Star",
+                        tint = Color(0xFFFFC107),
+                        modifier = Modifier.size(16.dp)
                     )
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${parking.price} DZD",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        text = "${parking.rating}",
+                        fontSize = 14.sp
                     )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_local_parking_24),
+                        contentDescription = "Star",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Free places: ${parking.freePlaces}",
-                        style = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
+                        text = "${parking.freePlaces}/${parking.totalPlaces} Places",
+                        fontSize = 14.sp
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = { navController.navigate(
+                        Router.ParkingDetailsById.createRoute(parking.id)
+                    ) },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                ) {
+                    Text(
+                        text = "More Info",
+                        color = Color.White
                     )
                 }
             }
+            AsyncImage(
+                model = parking.photoUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.CenterVertically),
+                contentScale = ContentScale.Crop,
+            )
+
         }
     }
 }

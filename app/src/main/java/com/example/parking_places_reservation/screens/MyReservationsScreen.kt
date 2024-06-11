@@ -1,20 +1,21 @@
 package com.example.parking_places_reservation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,15 +23,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import com.example.parking_places_reservation.core.entities.Parking
-import com.example.parking_places_reservation.core.entities.Reservation
 import com.example.parking_places_reservation.core.room.ReservationEntity
 import com.example.parking_places_reservation.screens.router.Router
 import com.example.parking_places_reservation.`view-models`.AuthViewModel
@@ -74,82 +71,136 @@ fun MyReservationsScreen(navController: NavController,authViewModel: AuthViewMod
     }
 }
 
+
+
 @Composable
 fun ReservationListItem(reservation: ReservationEntity , navController: NavController) {
-    Column(
+    val startTimeGreaterThanCurrent = isDateStringGreaterThanCurrent(reservation.startTime)
+    val endTimeGreaterThanCurrent = isDateStringGreaterThanCurrent(reservation.endTime)
+
+    val status = if (startTimeGreaterThanCurrent && endTimeGreaterThanCurrent) {
+        "Not Started Yet"
+    } else if (endTimeGreaterThanCurrent) {
+        "Pending"
+    } else {
+        "Ended"
+    }
+    val colorByStatus = when (status) {
+        "Not Started Yet" -> Color(0xFF64B5F6) // Light Blue
+        "Pending" -> Color(0xFFFFD54F) // Amber
+        "Ended" -> Color(0xFFEF5350) // Red
+        else -> Color.Black // Black as default
+    }
+    Card(
+        shape = RoundedCornerShape(8.dp),
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                navController.navigate(
-                    Router.ReservationDetails.createRoute(
-                        reservation.id.toString()
-                    )
-                )
-            }
-            .padding(16.dp),
-        horizontalAlignment = Alignment.Start
+            .padding(16.dp)
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Card(
-            shape = RoundedCornerShape(8.dp),
-            elevation = 4.dp,
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .background(Color.White)
+                .padding(16.dp)
         ) {
+            Text(
+                text = reservation.parkingName,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Address:",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = reservation.parkingAddress,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Parking Session",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.primary,
-                                Color(0xFFFFFFFF)
-                            )
-                        ),
-                        shape = RoundedCornerShape(8.dp)
-                    ),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                AsyncImage(
-                    model = reservation.parkingPhotoUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .padding(8.dp)
-                        .border(
-                            shape = RoundedCornerShape(8.dp),
-                            width = 1.dp,
-                            color = Color.Gray
-                        )
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop,
-                )
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
+                Column {
                     Text(
-                        text = reservation.parkingName,
-                        style = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        text = "Start Time:",
+                        fontSize = 14.sp
                     )
                     Text(
-                        text = reservation.parkingAddress,
-                        style = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        text = reservation.startTime,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Column {
+                    Text(
+                        text = "End Time:",
+                        fontSize = 14.sp
                     )
                     Text(
-                        text = "start time: ${reservation.startTime}",
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color.Black,
-                        ),
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                    Text(
-                        text = "end time: ${reservation.endTime}",
-                        style = MaterialTheme.typography.bodyLarge.copy(color = Color.Black)
+                        text = reservation.endTime,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "ID",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = reservation.id,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ){
+                Button(
+                    onClick = { navController.navigate(
+                        Router.ReservationDetails.createRoute(reservation.id)
+                    ) },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                ) {
+                    Text(
+                        text = "More Info",
+                        color = Color.White
+                    )
+                }
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(30.dp))
+                            .background(colorByStatus)
+                            .padding(horizontal = 10.dp, vertical = 5.dp),
+                    ){
+                        Text(
+                            text = status,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+            }
+
         }
     }
 }

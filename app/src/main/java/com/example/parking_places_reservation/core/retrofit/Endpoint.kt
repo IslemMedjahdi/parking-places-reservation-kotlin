@@ -61,7 +61,7 @@ interface Endpoint {
         private var endpoint: Endpoint? = null
         fun createEndpoint(): Endpoint {
             if(endpoint ==null) {
-                endpoint = Retrofit.Builder().baseUrl("https://a9df-105-99-137-7.ngrok-free.app/").
+                endpoint = Retrofit.Builder().baseUrl("https://24e0-105-235-131-142.ngrok-free.app/").
                             addConverterFactory(GsonConverterFactory.create()).build()
                             .create(Endpoint::class.java)
             }
